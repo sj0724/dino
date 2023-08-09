@@ -2,7 +2,7 @@ let canvas = document.getElementById('canvas');
 let ctx = canvas.getContext('2d');
 canvas.width = 500;
 canvas.height = 500;
-
+const jumpBtn = document.querySelector('.jump');
 
 let dino = {
     x : 10,
@@ -92,3 +92,11 @@ document.addEventListener('keydown', function(e){
     }
 })
 
+// function jump(){
+//         jumping = true;
+//     if(jumpTimer =! 0){
+//         jumping = false;
+//     }
+// }
+
+// jumpBtn.addEventListener('click', jump)
