@@ -2,7 +2,7 @@ let canvas = document.getElementById('canvas');
 let ctx = canvas.getContext('2d');
 canvas.width = 500;
 canvas.height = 500;
-const jumpBtn = document.querySelector('.jump');
+const jumpBtn = document.querySelector('#jump');
 
 let dino = {
     x : 10,
@@ -32,7 +32,8 @@ var timer = 0;
 var cactusArray = [];
 var jumpTimer = 0;
 var animation;
-
+let j = 2;
+let u = 4;
 
 function frame(){
     animation = requestAnimationFrame(frame);
@@ -42,7 +43,11 @@ function frame(){
 
     ctx.clearRect(0,0, canvas.width, canvas.height);
 
-    if(timer % 200 === 0){
+    if(timer % 500 === 0){
+        j+=1;
+        console.log(j)
+    }
+    if(timer % (200-j*5) === 0){
         let cactus = new Cactus();
         cactusArray.push(cactus);
     }
@@ -50,10 +55,10 @@ function frame(){
         if(a.x < 0){
             o.splice(i,1)
         };
-        a.x-=2;
+        a.x-=j;
         crush(dino, a);
         a.draw();
-    });
+    })
     jumpTimer+=2;
     if(jumping == true){
         dino.y-=2;
@@ -63,13 +68,15 @@ function frame(){
     }
     if(jumping == false){
         if(dino.y < 200){
-            dino.y+=2;
-        }else if(dino.y == 200){
+            dino.y+=u;
+        } else if(dino.y == 200){
             jumpTimer = 0;
+            jumping = false;
+            u = 2;
         }
     }
-    console.log(jumpTimer)
     dino.draw();
+    console.log(dino.y);
 };
 
 frame();
@@ -81,22 +88,25 @@ function crush(dino, cactus){
         ctx.clearRect(0,0, canvas.width, canvas.height);
         cancelAnimationFrame(animation)
     }
-}
+};
+
 var jumping = false;
+
+function jump(){
+    jumping = true
+};
+
+document.addEventListener('keydown', function(e){
+    if(e.code === 'ArrowDown'){
+        jumping=false;
+        u = 10;
+    }
+});
 
 document.addEventListener('keydown', function(e){
     if(e.code === 'Space'){
-        jumping = true;
-    }else if(jumpTimer =! 0){
-        jumping = false;
+        jump();
     }
-})
+});
 
-// function jump(){
-//         jumping = true;
-//     if(jumpTimer =! 0){
-//         jumping = false;
-//     }
-// }
-
-// jumpBtn.addEventListener('click', jump)
+jumpBtn.addEventListener('click', jump);
