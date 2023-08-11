@@ -29,18 +29,22 @@ class Cactus{
 }
 
 var timer = 0;
+var score = 0;
 var cactusArray = [];
 var jumpTimer = 0;
 var animation;
 let j = 2;
 let u = j-1;
 
-
 function frame(){
     animation = requestAnimationFrame(frame);
     timer++;
 
     document.querySelector('#score').innerHTML = timer
+    if(timer >= score){
+        score++;
+        document.querySelector('#highscore').innerHTML = score
+    }
 
     ctx.clearRect(0,0, canvas.width, canvas.height);
 
@@ -78,8 +82,8 @@ function frame(){
             dino.y = 200;
         }
     }
+    document.querySelector('#level').innerHTML = j-1;
     dino.draw();
-    console.log();
 };
 
 frame();
@@ -94,11 +98,13 @@ function crush(dino, cactus){
 };
 
 function restart(){
+    cancelAnimationFrame(animation)
     timer = 0;
-    cactusArray = [''];
+    cactusArray = [];
     jumpTimer = 0;
     j = 2;
     u = j-1;
+    dino.y = 200;
     frame()
 }
 

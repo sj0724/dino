@@ -10,6 +10,10 @@ canvas{
     border: 1px solid black ;
 }
 
+.score{
+    line-height: 10px;
+}
+
 .explane{
     height: 100%;
     display: flex;
