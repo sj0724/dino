@@ -33,7 +33,8 @@ var cactusArray = [];
 var jumpTimer = 0;
 var animation;
 let j = 2;
-let u = 4;
+let u = j-1;
+
 
 function frame(){
     animation = requestAnimationFrame(frame);
@@ -43,11 +44,11 @@ function frame(){
 
     ctx.clearRect(0,0, canvas.width, canvas.height);
 
-    if(timer % 500 === 0){
+    if(timer % 1000 === 0){
         j+=1;
         console.log(j)
     }
-    if(timer % (200-j*5) === 0){
+    if(timer % (170-j*10) === 0){
         let cactus = new Cactus();
         cactusArray.push(cactus);
     }
@@ -59,9 +60,9 @@ function frame(){
         crush(dino, a);
         a.draw();
     })
-    jumpTimer+=2;
+    jumpTimer+=j;
     if(jumping == true){
-        dino.y-=2;
+        dino.y-=j;
     }
     if(jumpTimer > 120){
         jumping = false
@@ -72,11 +73,13 @@ function frame(){
         } else if(dino.y == 200){
             jumpTimer = 0;
             jumping = false;
-            u = 2;
+            u = j-1;
+        } else if(dino.y > 200){
+            dino.y = 200;
         }
     }
     dino.draw();
-    console.log(dino.y);
+    console.log();
 };
 
 frame();
@@ -89,6 +92,15 @@ function crush(dino, cactus){
         cancelAnimationFrame(animation)
     }
 };
+
+function restart(){
+    timer = 0;
+    cactusArray = [''];
+    jumpTimer = 0;
+    j = 2;
+    u = j-1;
+    frame()
+}
 
 var jumping = false;
 
@@ -109,4 +121,4 @@ document.addEventListener('keydown', function(e){
     }
 });
 
-jumpBtn.addEventListener('click', jump);
+jumpBtn.addEventListener('click', restart);

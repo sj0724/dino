@@ -9,3 +9,11 @@ body{
 canvas{
     border: 1px solid black ;
 }
+
+.explane{
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+}
