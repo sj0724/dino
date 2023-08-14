@@ -1,8 +1,17 @@
-let canvas = document.getElementById('canvas');
-let ctx = canvas.getContext('2d');
+const canvas = document.getElementById('canvas');
+const ctx = canvas.getContext('2d');
 canvas.width = 500;
 canvas.height = 500;
 const jumpBtn = document.querySelector('#jump');
+
+let line = {
+    draw(){
+        ctx.beginPath();
+        ctx.moveTo(0,250);
+        ctx.lineTo(500,250);
+        ctx.stroke();
+    }
+};
 
 let dino = {
     x : 10,
@@ -16,11 +25,11 @@ let dino = {
 };
 
 class Cactus{
-    constructor(){
+    constructor(height){
         this.x = 500;
-        this.y = 200;
+        this.y = 250 - height;
         this.width = 20;
-        this.height = 50;
+        this.height = height;
     }
     draw(){
         ctx.fillStyle = 'red';
@@ -28,6 +37,7 @@ class Cactus{
     }
 }
 
+var jumping = false;
 var timer = 0;
 var score = 0;
 var cactusArray = [];
@@ -35,6 +45,11 @@ var jumpTimer = 0;
 var animation;
 let j = 2;
 let u = j-1;
+let num = [30,50,70];
+
+function jump(){
+    jumping = true
+};
 
 function frame(){
     animation = requestAnimationFrame(frame);
@@ -50,11 +65,12 @@ function frame(){
 
     if(timer % 1000 === 0){
         j+=1;
-        console.log(j)
     }
     if(timer % (170-j*10) === 0){
-        let cactus = new Cactus();
+        let random = num[Math.floor(Math.random()*num.length)];
+        let cactus = new Cactus(random);
         cactusArray.push(cactus);
+        console.log(cactus.y)
     }
     cactusArray.forEach((a, i, o)=>{
         if(a.x < 0){
@@ -84,6 +100,7 @@ function frame(){
     }
     document.querySelector('#level').innerHTML = j-1;
     dino.draw();
+    line.draw();
 };
 
 frame();
@@ -105,13 +122,8 @@ function restart(){
     j = 2;
     u = j-1;
     dino.y = 200;
+    jumping = false;
     frame()
-}
-
-var jumping = false;
-
-function jump(){
-    jumping = true
 };
 
 document.addEventListener('keydown', function(e){
