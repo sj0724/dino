@@ -13,16 +13,26 @@ let line = {
     }
 };
 
+let img1 = new Image();
+img1.src = 'dino2.png';
+
+let img2 = new Image();
+img2.src = 'dino3.png';
+
 let dino = {
     x : 10,
     y : 200,
     width : 50,
     height : 50,
-    draw(){
-        ctx.fillStyle = 'green';
-        ctx.fillRect(this.x,this.y,this.width,this.height);
+    draw(e){
+        // ctx.fillStyle = 'green';
+        // ctx.fillRect(this.x,this.y,this.width,this.height);
+        ctx.drawImage(e, this.x, this.y, 50, 50);
     }
 };
+
+let img3 = new Image();
+img3.src = 'cactus1.png'
 
 class Cactus{
     constructor(height){
@@ -32,8 +42,9 @@ class Cactus{
         this.height = height;
     }
     draw(){
-        ctx.fillStyle = 'red';
-        ctx.fillRect(this.x,this.y,this.width,this.height);
+        // ctx.fillStyle = 'red';
+        // ctx.fillRect(this.x,this.y,this.width,this.height);
+        ctx.drawImage(img3, this.x, this.y, 30, this.height)
     }
 }
 
@@ -46,6 +57,7 @@ var animation;
 let j = 2;
 let u = j-1;
 let num = [30,50,70];
+let i = img1;
 
 function jump(){
     jumping = true
@@ -70,7 +82,6 @@ function frame(){
         let random = num[Math.floor(Math.random()*num.length)];
         let cactus = new Cactus(random);
         cactusArray.push(cactus);
-        console.log(cactus.y)
     }
     cactusArray.forEach((a, i, o)=>{
         if(a.x < 0){
@@ -99,8 +110,14 @@ function frame(){
         }
     }
     document.querySelector('#level').innerHTML = j-1;
-    dino.draw();
+    if(timer % 20 == 0){
+        i = img2;
+    }else if(timer % 30 == 0){
+        i = img1;
+    }
+    dino.draw(i);
     line.draw();
+    console.log(i);
 };
 
 frame();
